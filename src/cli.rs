@@ -12,6 +12,7 @@ pub fn process_args<'a>() -> clap::ArgMatches<'a>{
             .value_name("COMMUNITY")
             .help("SNMP v2 community string")
             .takes_value(true)
+            .required(true)
         ).arg(Arg::with_name("IPADDRESS")
             .required(true)
             .index(1)
