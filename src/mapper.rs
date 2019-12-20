@@ -59,7 +59,7 @@ pub fn convert_to_hex<S:Into<String>>(dotd: S) -> String{
 fn mac_to_string_test(){
     
     let test = "184.39.235.100.148.192";
-    println!("--->{}", mapper::convert_to_hex(test));
+    println!("--->{}", convert_to_hex(test));
     let mac = eui48::MacAddress::new([184,39,235,100,148,192]);
         
     assert_eq!(true, true);    
