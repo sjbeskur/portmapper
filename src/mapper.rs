@@ -1,6 +1,6 @@
 extern crate snmp;
 use std::time::Duration;
-use snmp::{SyncSession, Value};
+use snmp::{SyncSession};
 use eui48::*;
 
 
@@ -16,8 +16,6 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
 
     let mut sess = SyncSession::new(target_ip, community, Some(timeout), 0).unwrap();
     let response = sess.getbulk(&[system_oid], non_repeaters, max_repetitions).unwrap();
-
-    let s = "".to_string();
 
     let l = oid.len() + 1;
     for (name, port_val) in response.varbinds {
@@ -46,6 +44,7 @@ pub fn convert_to_mac<S:Into<String>>(dotd: S) -> eui48::MacAddress {
     eui48::MacAddress::new(buffer)
 }
 
+#[allow(dead_code)]
 pub fn convert_to_hex<S:Into<String>>(dotd: S) -> String{
     return  dotd.into().split(".").into_iter().map(
         |n| format!("{:02X}", n.parse::<u32>().unwrap())

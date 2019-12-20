@@ -16,7 +16,7 @@ fn main() {
     let matches = cli::process_args();
     
     let community = matches.value_of("community").unwrap();
-    let mut ip_addr = matches.value_of("IPADDRESS").unwrap();
+    let ip_addr = matches.value_of("IPADDRESS").unwrap();
     let ip_addr = format!("{}:161",ip_addr);
 
     mapper::get_port_macs(MIB_TABLE, &ip_addr, community);
