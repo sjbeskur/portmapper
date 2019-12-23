@@ -4,7 +4,7 @@ use snmp::{SyncSession};
 use eui48::*;
 
 
-pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
+pub fn get_port_macs(oid: &str, target_ip: &str, community: &str) -> crate::AppResult<()>{
 
     let system_oid      = &convert_oid(oid);
     let community = community.as_bytes();
@@ -15,7 +15,7 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
     
     let mut sess = SyncSession::new(target_ip, community, Some(timeout), 0).unwrap();
     let response = sess.getbulk(&[system_oid], non_repeaters, max_repetitions).unwrap();
-
+       
     let l = oid.len() + 1;
     for (name, port_val) in response.varbinds {
         let s = format!("{}", name);
@@ -29,6 +29,8 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
         let mac = convert_to_mac(doted_mac);
         println!("{} - port = {}", mac.to_string(MacAddressFormat::Canonical).to_uppercase(),  port[1].trim());
     }
+
+    Ok(())
 
 }
 
