@@ -8,12 +8,11 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
 
     let system_oid      = &convert_oid(oid);
     let community = community.as_bytes();
-    //    let community       = b"ggc_ro";
     let timeout         = Duration::from_secs(2);
+
     let non_repeaters   = 0;
     let max_repetitions = 30; // number of items in "system" OID
     
-
     let mut sess = SyncSession::new(target_ip, community, Some(timeout), 0).unwrap();
     let response = sess.getbulk(&[system_oid], non_repeaters, max_repetitions).unwrap();
 
@@ -21,6 +20,7 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str){
     for (name, port_val) in response.varbinds {
         let s = format!("{}", name);
         let doted_mac = &s[l..]; // mac is dotd encoded suffix of returned oid
+
         //let hex_mac = convert_to_hex(doted_mac);
         //println!("{} - {} - port={:?}", hex_mac, hex_mac.len(), port_val);
         
