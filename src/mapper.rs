@@ -13,9 +13,18 @@ pub fn get_port_macs(oid: &str, target_ip: &str, community: &str) -> crate::AppR
     let non_repeaters   = 0;
     let max_repetitions = 30; // number of items in "system" OID
     
-    let mut sess = SyncSession::new(target_ip, community, Some(timeout), 0).unwrap();
-    let response = sess.getbulk(&[system_oid], non_repeaters, max_repetitions).unwrap();
-       
+    let mut sess = SyncSession::new(target_ip, community, Some(timeout), 0)?;
+
+//    let response = sess.getbulk(&[system_oid], non_repeaters, max_repetitions)?;
+
+    let response = match sess.getbulk(&[system_oid], non_repeaters, max_repetitions){
+        Ok(resp) => { resp },
+        Err(_) => { 
+//            return Err( err_msg(format!("SNMP request failed for target: {}",target_ip ) ) );
+            return Err(crate::AppError::SnmpError(target_ip.to_string()));
+        }
+    };
+
     let l = oid.len() + 1;
     for (name, port_val) in response.varbinds {
         let s = format!("{}", name);

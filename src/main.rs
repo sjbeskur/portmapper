@@ -20,7 +20,12 @@ fn main() -> AppResult<()> {
     let ip_addr = matches.value_of("IPADDRESS").expect("Invalid IPv4 address");
     let ip_addr = format!("{}:161",ip_addr);
 
-    mapper::get_port_macs(DOT1D_TP_FDB_PORT, &ip_addr, community);
+    let _ = match mapper::get_port_macs(DOT1D_TP_FDB_PORT, &ip_addr, community){
+        Ok(r) => { r },
+        Err(e) => { 
+            println!("{}",failure::err_msg(e));
+        }
+    };
 
     Ok(())
 }
@@ -35,11 +40,9 @@ pub enum AppError {
     #[fail(display = "IO Error: {}", _0)]
     IOError(String),
 
-    #[fail(display = "Decode Error: {}", _0)]
-    Decode(String),
+    #[fail(display = "SNMP request failed for target: {}", _0)]
+    SnmpError(String),
 
-    #[fail(display = "Error: {}", _0)]
-    AppError(String),
 }
 
 impl From<std::io::Error> for AppError {
@@ -48,16 +51,10 @@ impl From<std::io::Error> for AppError {
     }
 }
 
-impl From<std::str::Utf8Error> for AppError {
-    fn from(err: std::str::Utf8Error) -> AppError {
-        AppError::Decode(err.to_string())
+impl From<snmp::SnmpError> for AppError{
+    fn from( err: snmp::SnmpError) -> AppError{
+        AppError::SnmpError( format!("{:?}", err ) )
     }
 }
 
-/*
-impl From<snmp::SnmpError> for AppError {
-    fn from(err: snmp::SnmpError) -> AppError {
-        AppError::Decode("error in snmp ".to_string())
-    }
-}
-*/
+
