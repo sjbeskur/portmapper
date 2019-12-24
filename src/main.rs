@@ -28,21 +28,15 @@ fn main() -> AppResult<()> {
             println!("{}",failure::err_msg(e));
             //return Err(e);
         }
-    };
-
-    
+    };    
     Ok(())
 }
 
 fn print_results(list:  &mut Vec<mapper::VarBind>, sort_by_col: &str ){
     println!("{0: <18}  {1: <3}", "mac", "port");
     match sort_by_col{
-        "port" => {
-            list.sort_by_key(|k| k.port.clone() );
-        }
-        _ => {
-            list.sort_by_key(|k| k.mac.clone() );
-        }
+        "port" => { list.sort_by_key(|k| k.port.clone() ); }
+        _ => { list.sort_by_key(|k| k.mac.clone() ); }
     }
 
     for i in list{
