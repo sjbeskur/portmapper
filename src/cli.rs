@@ -15,7 +15,17 @@ pub fn process_args<'a>() -> clap::ArgMatches<'a>{
             .required(true)
         ).arg(Arg::with_name("IPADDRESS")
             .required(true)
+            .help("Target IPv4 address to query")
             .index(1)
+        ).arg(Arg::with_name("sort_by")
+            .short("s")
+            .long("sort_by")
+            .value_name("SORT")
+            .help("Sort by column")
+            .takes_value(true)
+            .required(false)
+            .default_value("mac")
+            .possible_values(&["mac","port"])
         )        
         
         .get_matches();    
