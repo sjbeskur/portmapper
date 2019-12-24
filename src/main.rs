@@ -9,9 +9,13 @@ mod cli;
 mod mapper;
 
 // snmpbulkwalk -c ggc_ro -v 2c <ip_or_hostname> 1.3.6.1.2.1.17.4.3.1.2
-
 // BRIDGE-MIB::dot1dTpFdbPort
 const DOT1D_TP_FDB_PORT: &str = "1.3.6.1.2.1.17.4.3.1.2";
+
+// snmpbulkwalk -c ggc_ro -v 2c 10.80.4.14 1.3.6.1.2.1.4.35 -m IP-MIB
+// IP-MIB::ipNetToPhysicalPhysAddress.1.ipv4
+const IP_NET_TO_PHYSICAL_PHYS_ADDRESS: &str = "1.3.6.1.2.1.4.35";
+
 
 fn main() -> AppResult<()> {
     let matches = cli::process_args();
