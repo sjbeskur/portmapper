@@ -17,7 +17,16 @@ const DOT1D_TP_FDB_PORT: &str = "1.3.6.1.2.1.17.4.3.1.2";
 const IP_NET_TO_PHYSICAL_PHYS_ADDRESS: &str = "1.3.6.1.2.1.4.35";
 
 
+// sudo apt-get install snmp-mibs-downloader
+// on 18.04 this will download mibs to: 
+//            /var/lib/snmp/mibs/ietf/
+//            /var/lib/snmp/mibs/iana/
+//            /usr/share/snmp/mibs
+// 
+// to periodically update:    sudo download-mibs
+
 fn main() -> AppResult<()> {
+
     let matches = cli::process_args();
     
     let sort_by = matches.value_of("sort_by").unwrap_or_default();
@@ -36,7 +45,7 @@ fn main() -> AppResult<()> {
     Ok(())
 }
 
-fn print_results(list:  &mut Vec<mapper::VarBind>, sort_by_col: &str ){
+fn print_results(list:  &mut Vec<mapper::MacPort>, sort_by_col: &str ){
     println!("{0: <18}  {1: <3}", "mac", "port");
     match sort_by_col{
         "port" => { list.sort_by_key(|k| k.port.clone() ); }
