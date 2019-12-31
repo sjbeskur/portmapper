@@ -15,7 +15,6 @@ pub fn get_port_macs<'a>(oid: &str, target_ip: &str, community: &str) -> crate::
     let mut ret_vec: Vec<MacPort> = Vec::new();        
     let l = oid.len() + 1;
     for (name, port_val) in results {
-        println!("------>{}",name);
         if ! name.starts_with(oid){ break; }
         let doted_mac = &name[l..]; // mac is dotd encoded suffix of returned oid        
         let mac = convert_to_mac(doted_mac);
@@ -41,7 +40,6 @@ fn bulkwalk_r(sess: &mut SyncSession, oid: &[u32], non_repeaters: u32, max_repea
     loop{
         match sess.getbulk(&[last_oid], non_repeaters, max_repeaters){        
             Ok(resp) => {
-                println!("---------------------------- sending bulk----------  nr={} mr={} -----", non_repeaters, max_repeaters );
                 for (curr_oid, val) in resp.varbinds{
                     let mut oid_buff: [u32; 128] = [0; 128];
                     let coid = curr_oid.read_name(&mut oid_buff).unwrap();
