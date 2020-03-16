@@ -3,7 +3,8 @@ name = "portmapper"
 version = "0.1.0"
 authors = ["sjbeskur <sam.beskur@gmail.com>"]
 edition = "2018"
-
+description = "A simple switch portmapping utility"
+license = "MIT/Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -11,3 +12,8 @@ clap = "2.33.0"
 snmp = "0.2.2"
 failure = "0.1.6"
 eui48 = "0.4.6"
+[package.metadata.rpm.cargo]
+buildflags = ["--release"]
+
+[package.metadata.rpm.targets]
+portmapper = { path = "/usr/bin/portmapper" }
