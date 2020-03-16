@@ -46,14 +46,14 @@ fn main() -> AppResult<()> {
 }
 
 fn print_results(list:  &mut Vec<mapper::MacPort>, sort_by_col: &str ){
-    println!("{0: <18}  {1: <3}", "mac", "port");
+    println!("{0: <5}\t{1: <18}", "port", "mac");
     match sort_by_col{
         "port" => { list.sort_by_key(|k| k.port.clone() ); }
         _ => { list.sort_by_key(|k| k.mac.clone() ); }
     }
 
     for i in list{
-        println!("{0: <18}  {1: <3}", i.mac, i.port);
+        println!("{0: <5}\t{1: <18}",  i.port, i.mac);
     }
 }
 
