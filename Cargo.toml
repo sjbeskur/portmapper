@@ -1,13 +1,11 @@
 [package]
 name = "portmapper"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["sjbeskur <sam.beskur@gmail.com>"]
-edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition = "2021"
 
 [dependencies]
-clap = "2.33.0"
-snmp = "0.2.2"
-failure = "0.1.6"
-eui48 = "0.4.6"
+clap = { version = "4", features = ["derive"] }
+snmp2 = "0.5.0"
+thiserror = "2"
+eui48 = { version = "1.1.0", default-features = false }
